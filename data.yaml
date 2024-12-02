@@ -1,0 +1,13 @@
+train: images/train
+val: images/valid
+test: images/test
+
+nc: 10
+names: ['Bike', 'Car', 'Cat', 'DeathStar', 'Dog', 'Flower', 'Horse', 'Moon', 'Space Craft', 'human']
+
+roboflow:
+  workspace: team-projects
+  project: box-labels-jgqlg
+  version: 1
+  license: CC BY 4.0
+  url: https://universe.roboflow.com/team-projects/box-labels-jgqlg/dataset/1
