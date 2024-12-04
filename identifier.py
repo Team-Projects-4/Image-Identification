@@ -9,7 +9,7 @@ else:
 
 model.info()
 
-ans = input("Do you want to train model? (y/n)")
+ans = input("Do you want to train model? (y/n) ")
 
 if ans == "y":
     model.train(
