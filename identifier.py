@@ -20,22 +20,34 @@ if ans.lower() == "y":
         val=True,               # Validate during training
     )
 
-ans = input("Do you want to test individual image? (y/n) ")
+ans = input("Do you want to test images? (y/n) ")
 if ans.lower() == "y":
     while True:
-        img_path = input("Enter the path to the image: ")   # Input file path
-        img_path = img_path.strip('"').strip("'")
-        if img_path == "exit":                              # If "exit" is inputted, break and exit
+        print("Specify file or folder (to test all images in folder)")
+        path = input("Enter the path: ")   # Input file path
+        path = path.strip('"').strip("'")
+        if path == "exit":                              # If "exit" is inputted, break and exit
             break
 
-        if os.path.exists(img_path):                        # Check if file path exists
-            results = model(img_path, 
-                            save=True, 
-                            save_crop=True, 
-                            save_txt=True, 
-                            conf=0.25)                      # Lowering confidence threshold so it makes predictions more often
-            print("RESULTS\n", results)  
-            print("Results saved for:", img_path)
+        if os.path.exists(path):                        # Check if file path exists
+            if path.endswith("png") or path.endswith("jpg") or path.endswith("jpeg"): # Individual files
+                results = model(path, 
+                                save=True, 
+                                save_crop=True, 
+                                save_txt=True, 
+                                conf=0.25)              # Lowering confidence threshold so it makes predictions more often
+                print("RESULTS\n", results)  
+                print("Results saved for:", path)
+            else:                                       # Parsing through folder of images
+                for file in os.listdir(path):
+                    if file.endswith("png") or file.endswith("jpg") or file.endswith("jpeg"): # Verify images
+                        results = model(file,
+                                        save=True,
+                                        save_crop=True,
+                                        save_txt=True,
+                                        conf=0.25)
+                        print("RESULTS\n", results)  
+                        print("Results saved for:", path)   
         else:
             print("Image not found. Try a new path. Type 'exit' to exit.")
 
