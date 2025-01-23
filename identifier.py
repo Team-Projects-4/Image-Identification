@@ -37,7 +37,7 @@ if ans.lower() == "y":
                                 save=True, 
                                 save_crop=True, 
                                 save_txt=True, 
-                                conf=0.25)              # Lowering confidence threshold so it makes predictions more often
+                                conf=0.35)              # Lowering confidence threshold so it makes predictions more often
                 print("RESULTS\n", results)  
                 print("Results saved for:", path)
             else:                                       # Parsing through folder of images
@@ -49,7 +49,7 @@ if ans.lower() == "y":
                                 save=True,
                                 save_crop=True,
                                 save_txt=True,
-                                conf=0.25,
+                                conf=0.35,
                                 stream=False)           # Return list, not "generator' (https://docs.ultralytics.com/modes/predict/#__tabbed_1_1)
                 
                 # Loop through every predicted image and result
