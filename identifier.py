@@ -2,6 +2,7 @@ from ultralytics import YOLO
 import torch
 import os
 
+# Load model
 if (os.path.exists("yolov5_trained.pt")):
     model = YOLO("yolov5_trained.pt")
 else:
@@ -9,8 +10,8 @@ else:
 
 model.info()
 
+# Training
 ans = input("Do you want to train model? (y/n) ")
-
 if ans.lower() == "y":
     model.train(
         data="data.yaml",       # Path to the data.yaml file
@@ -20,6 +21,7 @@ if ans.lower() == "y":
         val=True,               # Validate during training
     )
 
+# Testing
 ans = input("Do you want to test images? (y/n) ")
 if ans.lower() == "y":
     while True:
@@ -30,7 +32,7 @@ if ans.lower() == "y":
             break
 
         if os.path.exists(path):                        # Check if file path exists
-            if path.endswith("png") or path.endswith("jpg") or path.endswith("jpeg"): # Individual files
+            if os.path.isfile(path):                    # Individual files
                 results = model(path, 
                                 save=True, 
                                 save_crop=True, 
@@ -39,15 +41,33 @@ if ans.lower() == "y":
                 print("RESULTS\n", results)  
                 print("Results saved for:", path)
             else:                                       # Parsing through folder of images
-                for file in os.listdir(path):
-                    if file.endswith("png") or file.endswith("jpg") or file.endswith("jpeg"): # Verify images
-                        results = model(file,
-                                        save=True,
-                                        save_crop=True,
-                                        save_txt=True,
-                                        conf=0.25)
-                        print("RESULTS\n", results)  
-                        print("Results saved for:", path)   
+                images = [os.path.join(path, img) for img in os.listdir(path) # Get all images in folder
+                        if img.lower().endswith(('png', 'jpg', 'jpeg'))]
+                death_star_predictions = []             # Empty list to store death star predictions
+
+                results = model(images,
+                                save=True,
+                                save_crop=True,
+                                save_txt=True,
+                                conf=0.25,
+                                stream=False)           # Return list, not "generator' (https://docs.ultralytics.com/modes/predict/#__tabbed_1_1)
+                
+                # Loop through every predicted image and result
+                for img_path, result in zip(images, results): 
+                    for box in result.boxes:
+                        if int(box.cls[0]) == 3:        # Class 3 (Death Star)
+                            conf = float(box.conf[0])  
+                            death_star_predictions.append((img_path, conf))
+
+                # Sort by confidence
+                death_star_predictions.sort(key=lambda x: x[1], reverse=True)
+
+                # Get top 10 images
+                top_10 = death_star_predictions[:10]
+
+                print("\nTop 10 Most Confident Death Star Predictions:")
+                for img, conf in top_10:
+                    print(f"{img}: {conf:.4f}")
         else:
             print("Image not found. Try a new path. Type 'exit' to exit.")
 
