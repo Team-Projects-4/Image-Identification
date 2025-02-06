@@ -2,8 +2,8 @@ train: images/train
 val: images/valid
 test: images/test
 
-nc: 10
-names: ['Bike', 'Car', 'Cat', 'DeathStar', 'Dog', 'Flower', 'Horse', 'Moon', 'Space Craft', 'human']
+nc: 11
+names: ['Bike', 'Car', 'Cat', 'DeathStar', 'Dog', 'Flower', 'Horse', 'Moon', 'Space Craft', 'Human', 'SportsBall']
 
 roboflow:
   workspace: team-projects
