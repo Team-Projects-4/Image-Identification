@@ -1,5 +1,4 @@
 from ultralytics import YOLO
-import torch
 import os
 
 # Load model
@@ -28,7 +27,7 @@ if ans.lower() == "y":
         print("Specify file or folder (to test all images in folder)")
         path = input("Enter the path: ")   # Input file path
         path = path.strip('"').strip("'")
-        if path == "exit":                              # If "exit" is inputted, break and exit
+        if path == "exit" or path == 'quit' or path == 'q':                              # If "exit" is inputted, break and exit
             break
 
         if os.path.exists(path):                        # Check if file path exists
