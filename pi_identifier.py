@@ -2,8 +2,6 @@ import os
 import sys
 from ultralytics import YOLO
 
-## Modified script to just run "test" section of indentifier.py script. For use on Raspberry Pi.
-
 def print_help():
     help_text = """
     Usage: python script.py <folder_path>
@@ -46,20 +44,21 @@ def main():
     results = model(images, save=True, save_crop=True, save_txt=True, conf=0.35)
     
     death_star_predictions = []
-    
+
     for img_path, result in zip(images, results):
         for box in result.boxes:
             if int(box.cls[0]) == 3:  # Class 3 (Death Star)
                 conf = float(box.conf[0])
                 death_star_predictions.append((img_path, conf))
     
-    death_star_predictions.sort(key=lambda x: x[1], reverse=True)
+    # Sort by confidence score and take top 10
+    top_10 = [img for img, _ in sorted(death_star_predictions, key=lambda x: x[1], reverse=True)[:10]]
     
-    top_10 = death_star_predictions[:10]
+    # Print only file names
+    for img in top_10:
+        print(os.path.basename(img))
     
-    print("\nTop 10 Most Confident Death Star Predictions:")
-    for img, conf in top_10:
-        print(f"{img}: {conf:.4f}")
+    return top_10  # Return the list of top 10 images
 
 if __name__ == "__main__":
-    main()
+    top_10_images = main()
