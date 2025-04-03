@@ -58,7 +58,7 @@ def main():
     # Print only file names
     for img in top_10:
         #copy files and print names:
-        shutil.copy(img, os.path.join(destinationDir, os.path.basename(img)))
+        # shutil.copy(img, os.path.join(destinationDir, os.path.basename(img)))
         print(os.path.basename(img))
     
     return top_10  # Return the list of top 10 images
