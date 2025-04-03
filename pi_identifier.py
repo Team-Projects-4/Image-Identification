@@ -54,12 +54,12 @@ def main():
     
     # Sort by confidence score and take top 10
     top_10 = [img for img, _ in sorted(death_star_predictions, key=lambda x: x[1], reverse=True)[:10]]
-    destinationDir = "~/repos/TX-Image/imgTX/"
+    destinationDir = os.path.expanduser("~/repos/TX-Image/imgTX/")
+    os.makedirs(destinationDir, exist_ok=True)
     # Print only file names
     for img in top_10:
         #copy files and print names:
-        currentPath = os.path.join(folder_path, os.path.basename(img))
-        shutil.copy(currentPath, destinationDir)
+        shutil.copy(img, os.path.join(destinationDir, os.path.basename(img)))
         print(os.path.basename(img))
     
     return top_10  # Return the list of top 10 images
