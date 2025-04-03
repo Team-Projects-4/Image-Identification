@@ -1,5 +1,6 @@
 import os
 import sys
+import shutil
 from ultralytics import YOLO
 
 def print_help():
@@ -53,9 +54,11 @@ def main():
     
     # Sort by confidence score and take top 10
     top_10 = [img for img, _ in sorted(death_star_predictions, key=lambda x: x[1], reverse=True)[:10]]
-    
+    destinationDir = "~/repos/TX-Image/imgTX/"
     # Print only file names
     for img in top_10:
+        #copy files and print names:
+        shutil.copy(img, os.path.join(destinationDir, os.path.basename(img)))
         print(os.path.basename(img))
     
     return top_10  # Return the list of top 10 images
