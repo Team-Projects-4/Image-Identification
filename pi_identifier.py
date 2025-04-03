@@ -59,7 +59,7 @@ def main():
     for img in top_10:
         #copy files and print names:
         currentPath = os.path.join(folder_path, os.path.basename(img))
-        shutil.copy(currentPath, os.path.join(destinationDir, os.path.basename(img)))
+        shutil.copy(currentPath, destinationDir)
         print(os.path.basename(img))
     
     return top_10  # Return the list of top 10 images
