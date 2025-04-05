@@ -54,7 +54,7 @@ def main():
     
     # Sort by confidence score and take top 10
     top_10 = [img for img, _ in sorted(death_star_predictions, key=lambda x: x[1], reverse=True)[:10]]
-    # send the sorted images to the encryption directory
+    # send the sorted images to the encryption directory 
     destinationDir = os.path.expanduser("~/repos/Image-Encryption-Hashing/image_dir/")
     os.makedirs(destinationDir, exist_ok=True)
     # Print only file names
