@@ -47,6 +47,7 @@ def main():
     death_star_predictions = []
 
     for img_path, result in zip(images, results):
+        print(f"evaluating: {img_path}")
         for box in result.boxes:
             if int(box.cls[0]) == 3:  # Class 3 (Death Star)
                 conf = float(box.conf[0])
