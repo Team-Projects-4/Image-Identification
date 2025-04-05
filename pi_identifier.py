@@ -29,9 +29,10 @@ def main():
     if not os.path.exists(folder_path) or not os.path.isdir(folder_path):
         print("Error: Invalid folder path. Provide a valid directory containing images.")
         sys.exit(1)
-    
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    model_path = os.path.join(script_dir, "yolov5_trained.pt")
     # Load model
-    model = YOLO("yolov5_trained.pt") if os.path.exists("yolov5_trained.pt") else YOLO("yolov5nu.pt")
+    model = YOLO(model_path) if os.path.exists(model_path) else YOLO("yolov5nu.pt")
     
     # Get all images in folder
     images = [os.path.join(folder_path, img) for img in os.listdir(folder_path)
@@ -47,7 +48,6 @@ def main():
     death_star_predictions = []
 
     for img_path, result in zip(images, results):
-        print(f"evaluating: {img_path}")
         for box in result.boxes:
             if int(box.cls[0]) == 3:  # Class 3 (Death Star)
                 conf = float(box.conf[0])
